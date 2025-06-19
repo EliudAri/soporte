@@ -16,7 +16,18 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                
+                @role('Administrador')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('usuarios.index') }}" :active="request()->routeIs('usuarios.index')">
+                        {{ __('Usuarios') }}
+                    </x-nav-link>
+                </div>
+                @endrole
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('soportes.index') }}" :active="request()->routeIs('soportes.index')">
+                        {{ __('Soportes') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">

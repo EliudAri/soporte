@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use \App\Models\User;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SoporteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,10 @@ Route::middleware([
         return view('menu.usuarios', compact('usuarios'));
     })->middleware('can:usuarios')->name('usuarios');
 
+    Route::get('/soporte', function () {
+        return view('menu.soporte');
+    })->middleware('can:soporte')->name('soporte');
+
 
 
 
@@ -62,7 +67,21 @@ Route::middleware([
     Route::get('/usuarios/{usuario}/edit', [UserController::class, 'edit'])->middleware('can:usuarios.edit')->name('usuarios.edit');
     Route::put('/usuarios/{usuario}', [UserController::class, 'update'])->middleware('can:usuarios.update')->name('usuarios.update');
 
+    // Rutas para soportes
+    Route::get('/soportes', [SoporteController::class, 'index'])->middleware('can:soportes.index')->name('soportes.index');
+    Route::get('/soportes/create', [SoporteController::class, 'create'])->middleware('can:soportes.create')->name('soportes.create');
+    Route::post('/soportes', [SoporteController::class, 'store'])->middleware('can:soportes.create')->name('soportes.store');
+    Route::get('/soportes/{soporte}', [SoporteController::class, 'show'])->middleware('can:soportes.show')->name('soportes.show');
+    Route::get('/soportes/{soporte}/edit', [SoporteController::class, 'edit'])->middleware('can:soportes.edit')->name('soportes.edit');
+    Route::put('/soportes/{soporte}', [SoporteController::class, 'update'])->middleware('can:soportes.update')->name('soportes.update');
+    Route::delete('/soportes/{soporte}', [SoporteController::class, 'destroy'])->middleware('can:soportes.destroy')->name('soportes.destroy');
 
+    // Route::resource('soportes', \App\Http\Controllers\SoporteController::class);
+
+
+
+
+    
     //-----------FIN RUTAS QUE MANEJAN LOS DATOS-----------
 
     Route::get('/home', [HomeController::class, 'redirect'])->name('home');
@@ -70,7 +89,7 @@ Route::middleware([
 
 // Proteger el registro para que solo el admin pueda acceder
 Route::get('register', function () {
-    abort(403);
+    abort(403, 'No tienes acceso perro.');
 })->name('register');
 Route::post('register', function () {
     abort(403);
