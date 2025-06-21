@@ -33,8 +33,11 @@
                                 </div>
                                 <div>
                                     <x-label for="numero_identificacion" value="Número de identificación *" />
-                                    <x-input id="numero_identificacion" type="text" name="numero_identificacion" 
-                                             class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" required />
+                                    <div class="relative">
+                                        <x-input id="numero_identificacion" type="text" name="numero_identificacion" 
+                                                 class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" required autocomplete="off" />
+                                        <div id="results" class="absolute z-10 w-full bg-white rounded-md shadow-lg mt-1 hidden"></div>
+                                    </div>
                                     <x-input-error for="numero_identificacion" class="mt-2" />
                                 </div>
                                 <div>
@@ -239,52 +242,65 @@
     </div>
 </x-app-layout>
 
-@push('scripts')
 
 <script>
-function buscarCliente(query) {
-    console.log('Buscando cliente:', query);
-    if (!query) return;
-    fetch('/clientes/buscar?query=' + encodeURIComponent(query))
-        .then(response => response.json())
-        .then(data => {
-            console.log('Respuesta:', data);
-            if (data.found) {
-                document.getElementById('nombres').value = data.cliente.nombres;
-                document.getElementById('apellidos').value = data.cliente.apellidos;
-                document.getElementById('numero_identificacion').value = data.cliente.numero_identificacion;
-                document.getElementById('telefono').value = data.cliente.telefono;
-                document.getElementById('correo').value = data.cliente.correo;
-                document.getElementById('nombres').readOnly = true;
-                document.getElementById('apellidos').readOnly = true;
-                document.getElementById('numero_identificacion').readOnly = true;
-                document.getElementById('telefono').readOnly = true;
-                document.getElementById('correo').readOnly = true;
-                document.getElementById('cliente_id').value = data.cliente.id;
-            } else {
-                document.getElementById('nombres').value = '';
-                document.getElementById('apellidos').value = '';
-                document.getElementById('numero_identificacion').value = query;
-                document.getElementById('telefono').value = '';
-                document.getElementById('correo').value = '';
-                document.getElementById('nombres').readOnly = false;
-                document.getElementById('apellidos').readOnly = false;
-                document.getElementById('numero_identificacion').readOnly = false;
-                document.getElementById('telefono').readOnly = false;
-                document.getElementById('correo').readOnly = false;
-                document.getElementById('cliente_id').value = '';
-            }
-        });
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('numero_identificacion');
+    const resultsContainer = document.getElementById('results');
+    const clienteIdInput = document.getElementById('cliente_id');
+    const nombresInput = document.getElementById('nombres');
+    const apellidosInput = document.getElementById('apellidos');
+    const telefonoInput = document.getElementById('telefono');
+    const correoInput = document.getElementById('correo');
 
-document.getElementById('numero_identificacion').addEventListener('blur', function() {
-    buscarCliente(this.value);
-});
-document.getElementById('telefono').addEventListener('blur', function() {
-    buscarCliente(this.value);
-});
-document.getElementById('correo').addEventListener('blur', function() {
-    buscarCliente(this.value);
+    let searchTimeout;
+
+    searchInput.addEventListener('input', function () {
+        clearTimeout(searchTimeout);
+        const query = searchInput.value;
+
+        if (query.length < 2) {
+            resultsContainer.classList.add('hidden');
+            return;
+        }
+
+        searchTimeout = setTimeout(() => {
+            fetch(`/clientes/buscar?query=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsContainer.innerHTML = '';
+                    resultsContainer.classList.remove('hidden');
+
+                    if (data.length > 0) {
+                        data.forEach(cliente => {
+                            const resultItem = document.createElement('div');
+                            resultItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                            resultItem.textContent = `${cliente.nombres} ${cliente.apellidos} (${cliente.numero_identificacion})`;
+                            resultItem.addEventListener('click', function () {
+                                clienteIdInput.value = cliente.id;
+                                nombresInput.value = cliente.nombres;
+                                apellidosInput.value = cliente.apellidos;
+                                searchInput.value = cliente.numero_identificacion;
+                                telefonoInput.value = cliente.telefono;
+                                correoInput.value = cliente.correo;
+                                resultsContainer.innerHTML = '';
+                                resultsContainer.classList.add('hidden');
+                            });
+                            resultsContainer.appendChild(resultItem);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = '<div class="p-2 text-gray-500">No se encontraron clientes.</div>';
+                    }
+                })
+                .catch(error => console.error('Error en fetch:', error));
+        }, 300); // Debounce para no saturar con peticiones
+    });
+
+    // Ocultar resultados si se hace clic fuera
+    document.addEventListener('click', function(e) {
+        if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
+            resultsContainer.classList.add('hidden');
+        }
+    });
 });
 </script>
-@endpush
