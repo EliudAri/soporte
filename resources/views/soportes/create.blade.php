@@ -17,34 +17,37 @@
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
                                 1. Datos del Cliente
                             </h3>
-                            
+                            <input type="hidden" id="cliente_id" name="cliente_id" value="">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <x-label for="nombre_completo" value="Nombre completo *" />
-                                    <x-input id="nombre_completo" type="text" name="nombre_completo" 
-                                             class="mt-1 block w-full" value="{{ old('nombre_completo') }}" required />
-                                    <x-input-error for="nombre_completo" class="mt-2" />
+                                    <x-label for="nombres" value="Nombres *" />
+                                    <x-input id="nombres" type="text" name="nombres" 
+                                             class="mt-1 block w-full" value="{{ old('nombres') }}" required />
+                                    <x-input-error for="nombres" class="mt-2" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="numero_identificacion" value="Número de identificación (opcional)" />
+                                    <x-label for="apellidos" value="Apellidos *" />
+                                    <x-input id="apellidos" type="text" name="apellidos" 
+                                             class="mt-1 block w-full" value="{{ old('apellidos') }}" required />
+                                    <x-input-error for="apellidos" class="mt-2" />
+                                </div>
+                                <div>
+                                    <x-label for="numero_identificacion" value="Número de identificación *" />
                                     <x-input id="numero_identificacion" type="text" name="numero_identificacion" 
-                                             class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" />
+                                             class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" required />
                                     <x-input-error for="numero_identificacion" class="mt-2" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="telefono_whatsapp" value="Teléfono / WhatsApp *" />
-                                    <x-input id="telefono_whatsapp" type="text" name="telefono_whatsapp" 
-                                             class="mt-1 block w-full" value="{{ old('telefono_whatsapp') }}" required />
-                                    <x-input-error for="telefono_whatsapp" class="mt-2" />
+                                    <x-label for="telefono" value="Teléfono / WhatsApp *" />
+                                    <x-input id="telefono" type="text" name="telefono" 
+                                             class="mt-1 block w-full" value="{{ old('telefono') }}" required />
+                                    <x-input-error for="telefono" class="mt-2" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="correo_electronico" value="Correo electrónico *" />
-                                    <x-input id="correo_electronico" type="email" name="correo_electronico" 
-                                             class="mt-1 block w-full" value="{{ old('correo_electronico') }}" required />
-                                    <x-input-error for="correo_electronico" class="mt-2" />
+                                    <x-label for="correo" value="Correo electrónico *" />
+                                    <x-input id="correo" type="email" name="correo" 
+                                             class="mt-1 block w-full" value="{{ old('correo') }}" required />
+                                    <x-input-error for="correo" class="mt-2" />
                                 </div>
                             </div>
                         </div>
@@ -235,3 +238,53 @@
         </div>
     </div>
 </x-app-layout>
+
+@push('scripts')
+
+<script>
+function buscarCliente(query) {
+    console.log('Buscando cliente:', query);
+    if (!query) return;
+    fetch('/clientes/buscar?query=' + encodeURIComponent(query))
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta:', data);
+            if (data.found) {
+                document.getElementById('nombres').value = data.cliente.nombres;
+                document.getElementById('apellidos').value = data.cliente.apellidos;
+                document.getElementById('numero_identificacion').value = data.cliente.numero_identificacion;
+                document.getElementById('telefono').value = data.cliente.telefono;
+                document.getElementById('correo').value = data.cliente.correo;
+                document.getElementById('nombres').readOnly = true;
+                document.getElementById('apellidos').readOnly = true;
+                document.getElementById('numero_identificacion').readOnly = true;
+                document.getElementById('telefono').readOnly = true;
+                document.getElementById('correo').readOnly = true;
+                document.getElementById('cliente_id').value = data.cliente.id;
+            } else {
+                document.getElementById('nombres').value = '';
+                document.getElementById('apellidos').value = '';
+                document.getElementById('numero_identificacion').value = query;
+                document.getElementById('telefono').value = '';
+                document.getElementById('correo').value = '';
+                document.getElementById('nombres').readOnly = false;
+                document.getElementById('apellidos').readOnly = false;
+                document.getElementById('numero_identificacion').readOnly = false;
+                document.getElementById('telefono').readOnly = false;
+                document.getElementById('correo').readOnly = false;
+                document.getElementById('cliente_id').value = '';
+            }
+        });
+}
+
+document.getElementById('numero_identificacion').addEventListener('blur', function() {
+    buscarCliente(this.value);
+});
+document.getElementById('telefono').addEventListener('blur', function() {
+    buscarCliente(this.value);
+});
+document.getElementById('correo').addEventListener('blur', function() {
+    buscarCliente(this.value);
+});
+</script>
+@endpush

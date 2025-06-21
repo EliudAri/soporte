@@ -7,9 +7,11 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SoporteController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\SoporteTecnicoController;
+use App\Http\Controllers\ClienteController;
 
 Route::get('/', function () {
-     return view('welcome');
+    return view('welcome');
     // return view('auth.login');
 });
 
@@ -24,6 +26,8 @@ Route::middleware([
         $user = Auth::user();
         if ($user && $user->hasRole('Administrador')) {
             return view('dashboardAdmin');
+        } elseif ($user && $user->hasRole('Tecnico')) {
+            return view('dashboardTecni');
         } elseif ($user && $user->hasRole('User')) {
             return view('dashboardUser');
         } else {
@@ -76,7 +80,15 @@ Route::middleware([
     Route::put('/soportes/{soporte}', [SoporteController::class, 'update'])->middleware('can:soportes.update')->name('soportes.update');
     Route::delete('/soportes/{soporte}', [SoporteController::class, 'destroy'])->middleware('can:soportes.destroy')->name('soportes.destroy');
 
-    // Route::resource('soportes', \App\Http\Controllers\SoporteController::class);
+    
+     // Rutas para soportes_Tecni
+     Route::get('/soportes_Tecni', [SoporteTecnicoController::class, 'index'])->middleware('can:soportes_Tecni.index')->name('soportes_Tecni.index');
+     Route::get('/soportes_Tecni/create', [SoporteTecnicoController::class, 'create'])->middleware('can:soportes_Tecni.create')->name('soportes_Tecni.create');
+     Route::post('/soportes_Tecni', [SoporteTecnicoController::class, 'store'])->middleware('can:soportes_Tecni.create')->name('soportes_Tecni.store');
+     Route::get('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'show'])->middleware('can:soportes_Tecni.show')->name('soportes_Tecni.show');
+     Route::get('/soportes_Tecni/{soporte}/edit', [SoporteTecnicoController::class, 'edit'])->middleware('can:soportes_Tecni.edit')->name('soportes_Tecni.edit');
+     Route::put('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'update'])->middleware('can:soportes_Tecni.update')->name('soportes_Tecni.update');
+     Route::delete('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'destroy'])->middleware('can:soportes_Tecni.destroy')->name('soportes_Tecni.destroy');
 
 
 
@@ -84,7 +96,9 @@ Route::middleware([
     
     //-----------FIN RUTAS QUE MANEJAN LOS DATOS-----------
 
-    Route::get('/home', [HomeController::class, 'redirect'])->name('home');
+    // Route::get('/home', [HomeController::class, 'redirect'])->name('home');
+
+    Route::get('/clientes/buscar', [ClienteController::class, 'buscar'])->name('clientes.buscar');
 });
 
 // Proteger el registro para que solo el admin pueda acceder

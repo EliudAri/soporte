@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('soportes', function (Blueprint $table) {
             $table->id();
             
-            // Datos del Cliente
-            $table->string('nombre_completo');
-            $table->string('numero_identificacion')->nullable();
-            $table->string('telefono_whatsapp');
-            $table->string('correo_electronico');
+            // Relación con cliente
+            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('restrict');
             
             // Datos del Dispositivo
             $table->string('tipo_equipo'); // Laptop, PC, Impresora, Celular, etc.

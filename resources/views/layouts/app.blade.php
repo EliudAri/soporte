@@ -46,7 +46,7 @@
         @stack('modals')
 
         @livewireScripts
-        
+        @stack('scripts')
         <x-alert-toast />
     </body>
 </html>

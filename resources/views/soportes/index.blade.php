@@ -52,10 +52,10 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div>
                                             <div class="text-sm font-medium text-gray-900">
-                                                {{ $soporte->nombre_completo }}
+                                                {{ $soporte->cliente->nombres ?? 'Sin cliente' }} {{ $soporte->cliente->apellidos ?? '' }}
                                             </div>
                                             <div class="text-sm text-gray-500">
-                                                {{ $soporte->telefono_whatsapp }}
+                                                {{ $soporte->cliente->telefono ?? '' }}
                                             </div>
                                         </div>
                                     </td>
@@ -99,6 +99,12 @@
                                                 Ver
                                             </a>
                                             @endcan
+                                            
+                                            <a href="{{ route('soportes_Tecni.edit', $soporte) }}"
+                                                class="text-blue-600 hover:text-blue-900">
+                                                Diagnosticar
+                                            </a>
+                                            
                                             @can('soportes.edit')
                                             <a href="{{ route('soportes.edit', $soporte) }}"
                                                 class="text-green-600 hover:text-green-900">

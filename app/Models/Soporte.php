@@ -8,10 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Soporte extends Model
 {
     protected $fillable = [
-        'nombre_completo',
-        'numero_identificacion',
-        'telefono_whatsapp',
-        'correo_electronico',
         'tipo_equipo',
         'marca_modelo',
         'serial_imei',
@@ -29,11 +25,17 @@ class Soporte extends Model
         'observaciones_adicionales',
         'recomendaciones_inmediatas',
         'estado',
-        'user_id'
+        'user_id',
+        'diagnostico_tecnico',
+        'evidencia_tecnico',
+        'costo_estimado',
+        'tecnico_id',
+        'cliente_id'
     ];
 
     protected $casts = [
         'fotos_estado' => 'array',
+        'evidencia_tecnico' => 'array',
         'equipo_arranca' => 'boolean',
         'pantalla_fallos' => 'boolean',
         'teclado_puertos_funcionando' => 'boolean',
@@ -45,6 +47,18 @@ class Soporte extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Relación con el técnico asignado
+    public function tecnico(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'tecnico_id');
+    }
+
+    // Relación con el cliente
+    public function cliente()
+    {
+        return $this->belongsTo(\App\Models\Cliente::class);
     }
 
     // Métodos de acceso para los tipos de servicio

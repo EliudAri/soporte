@@ -44,22 +44,22 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
-                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->nombre_completo }}</p>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->cliente->nombres ?? '' }} {{ $soporte->cliente->apellidos ?? '' }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Número de identificación</label>
-                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->numero_identificacion ?: 'No especificado' }}</p>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->cliente->numero_identificacion ?? 'No especificado' }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Teléfono / WhatsApp</label>
-                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->telefono_whatsapp }}</p>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->cliente->telefono ?? '' }}</p>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->correo_electronico }}</p>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->cliente->correo ?? '' }}</p>
                             </div>
                         </div>
                     </div>
@@ -231,13 +231,58 @@
                     </div>
                     @endif
 
-                    <!-- Información del técnico -->
+                    <!-- 6. Diagnóstico y Seguimiento Técnico -->
+                    @if($soporte->diagnostico_tecnico)
+                    <div class="mb-8 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
+                            6. Diagnóstico y Seguimiento Técnico
+                        </h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Técnico Asignado</label>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->tecnico->name ?? 'No asignado' }}</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Costo Estimado</label>
+                                <p class="mt-1 text-sm text-gray-900">${{ number_format($soporte->costo_estimado, 2) ?? 'No especificado' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700">Diagnóstico del Técnico</label>
+                            <p class="mt-1 text-sm text-gray-900 bg-gray-50 p-3 rounded-md">{{ $soporte->diagnostico_tecnico }}</p>
+                        </div>
+                        
+                        @if($soporte->evidencia_tecnico && count($soporte->evidencia_tecnico) > 0)
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700">Evidencia del técnico</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                                @foreach($soporte->evidencia_tecnico as $foto)
+                                <div class="relative">
+                                    <img src="{{ Storage::url($foto) }}" alt="Evidencia del técnico"
+                                        class="w-full h-32 object-cover rounded-lg cursor-pointer"
+                                        onclick="openImageModal('{{ Storage::url($foto) }}')">
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+
+                    <!-- Footer con info y botón de diagnóstico -->
                     <div class="mt-8 pt-6 border-t border-gray-200">
                         <div class="flex items-center justify-between">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700">Técnico responsable</label>
-                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->user->name }}</p>
+                                <label class="block text-sm font-medium text-gray-700">Tique Creado por</label>
+                                <p class="mt-1 text-sm text-gray-900">{{ $soporte->user->name ?? 'N/A' }}</p>
                             </div>
+                            @role('Admin|Tecnico')
+                                <a href="{{ route('tecnico.soportes.diagnostico', $soporte) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                    {{ __('Gestionar Diagnóstico') }}
+                                </a>
+                            @endrole
                             <div class="text-right">
                                 <label class="block text-sm font-medium text-gray-700">Última actualización</label>
                                 <p class="mt-1 text-sm text-gray-900">{{ $soporte->updated_at->format('d/m/Y H:i') }}</p>

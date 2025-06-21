@@ -18,34 +18,26 @@
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
                                 1. Datos del Cliente
                             </h3>
-                            
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <x-label for="nombre_completo" value="Nombre completo *" />
-                                    <x-input id="nombre_completo" type="text" name="nombre_completo" 
-                                             class="mt-1 block w-full" value="{{ old('nombre_completo', $soporte->nombre_completo) }}" required />
-                                    <x-input-error for="nombre_completo" class="mt-2" />
+                                    <x-label value="Nombre completo" />
+                                    <x-input type="text" value="{{ $soporte->cliente->nombres ?? '' }}" readonly class="mt-1 block w-full" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="numero_identificacion" value="Número de identificación (opcional)" />
-                                    <x-input id="numero_identificacion" type="text" name="numero_identificacion" 
-                                             class="mt-1 block w-full" value="{{ old('numero_identificacion', $soporte->numero_identificacion) }}" />
-                                    <x-input-error for="numero_identificacion" class="mt-2" />
+                                    <x-label value="Apellidos" />
+                                    <x-input type="text" value="{{ $soporte->cliente->apellidos ?? '' }}" readonly class="mt-1 block w-full" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="telefono_whatsapp" value="Teléfono / WhatsApp *" />
-                                    <x-input id="telefono_whatsapp" type="text" name="telefono_whatsapp" 
-                                             class="mt-1 block w-full" value="{{ old('telefono_whatsapp', $soporte->telefono_whatsapp) }}" required />
-                                    <x-input-error for="telefono_whatsapp" class="mt-2" />
+                                    <x-label value="Número de identificación" />
+                                    <x-input type="text" value="{{ $soporte->cliente->numero_identificacion ?? '' }}" readonly class="mt-1 block w-full" />
                                 </div>
-                                
                                 <div>
-                                    <x-label for="correo_electronico" value="Correo electrónico *" />
-                                    <x-input id="correo_electronico" type="email" name="correo_electronico" 
-                                             class="mt-1 block w-full" value="{{ old('correo_electronico', $soporte->correo_electronico) }}" required />
-                                    <x-input-error for="correo_electronico" class="mt-2" />
+                                    <x-label value="Teléfono / WhatsApp" />
+                                    <x-input type="text" value="{{ $soporte->cliente->telefono ?? '' }}" readonly class="mt-1 block w-full" />
+                                </div>
+                                <div>
+                                    <x-label value="Correo electrónico" />
+                                    <x-input type="text" value="{{ $soporte->cliente->correo ?? '' }}" readonly class="mt-1 block w-full" />
                                 </div>
                             </div>
                         </div>

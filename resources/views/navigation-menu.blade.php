@@ -23,11 +23,20 @@
                     </x-nav-link>
                 </div>
                 @endrole
+                @role('Administrador|Tecnico')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('soportes.index') }}" :active="request()->routeIs('soportes.index')">
                         {{ __('Soportes') }}
                     </x-nav-link>
                 </div>
+                @endrole
+                @role('Administrador')
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
+                        {{ __('Roles') }}
+                    </x-nav-link>
+                </div>
+                @endrole
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Soporte;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class SoporteController extends Controller
      */
     public function index()
     {
-        $soportes = Soporte::with('user')->latest()->paginate(10);
+        $soportes = Soporte::with(['user', 'cliente'])->latest()->paginate(10);
         return view('soportes.index', compact('soportes'));
     }
 
@@ -34,10 +35,12 @@ class SoporteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre_completo' => 'required|string|max:255',
-            'numero_identificacion' => 'nullable|string|max:255',
-            'telefono_whatsapp' => 'required|string|max:255',
-            'correo_electronico' => 'required|email|max:255',
+            'cliente_id' => 'nullable|exists:clientes,id',
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'numero_identificacion' => 'required|string|max:255',
+            'telefono' => 'required|string|max:255',
+            'correo' => 'required|email|max:255',
             'tipo_equipo' => 'required|string|max:255',
             'marca_modelo' => 'required|string|max:255',
             'serial_imei' => 'nullable|string|max:255',
@@ -56,8 +59,39 @@ class SoporteController extends Controller
             'fotos_estado.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $data = $request->all();
+        // Si cliente_id viene, usarlo. Si no, buscar por identificación, teléfono o correo antes de crear cliente.
+        if ($request->filled('cliente_id')) {
+            $cliente_id = $request->cliente_id;
+        } else {
+            $cliente = Cliente::where('numero_identificacion', $request->numero_identificacion)
+                ->orWhere('telefono', $request->telefono)
+                ->orWhere('correo', $request->correo)
+                ->first();
+            if ($cliente) {
+                $cliente_id = $cliente->id;
+            } else {
+                $cliente = Cliente::create([
+                    'nombres' => $request->nombres,
+                    'apellidos' => $request->apellidos,
+                    'numero_identificacion' => $request->numero_identificacion,
+                    'telefono' => $request->telefono,
+                    'correo' => $request->correo,
+                    'direccion' => $request->direccion ?? null,
+                ]);
+                $cliente_id = $cliente->id;
+            }
+        }
+
+        $data = $request->except([
+            'nombres',
+            'apellidos',
+            'numero_identificacion',
+            'telefono',
+            'correo',
+            'direccion',
+        ]);
         $data['user_id'] = Auth::id();
+        $data['cliente_id'] = $cliente_id;
         // Forzar booleanos a false si no vienen en la request
         foreach ([
             'equipo_arranca',
@@ -119,10 +153,11 @@ class SoporteController extends Controller
         $soporte = Soporte::findOrFail($id);
 
         $request->validate([
-            'nombre_completo' => 'required|string|max:255',
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
             'numero_identificacion' => 'nullable|string|max:255',
-            'telefono_whatsapp' => 'required|string|max:255',
-            'correo_electronico' => 'required|email|max:255',
+            'telefono' => 'required|string|max:255',
+            'correo' => 'required|email|max:255',
             'tipo_equipo' => 'required|string|max:255',
             'marca_modelo' => 'required|string|max:255',
             'serial_imei' => 'nullable|string|max:255',
@@ -154,6 +189,17 @@ class SoporteController extends Controller
             $data[$campo] = $request->has($campo) ? (bool)$request->input($campo) : false;
         }
 
+        // Actualizar datos del cliente asociado
+        if($soporte->cliente) {
+            $soporte->cliente->update([
+                'nombres' => $request->nombres,
+                'apellidos' => $request->apellidos,
+                'numero_identificacion' => $request->numero_identificacion,
+                'telefono' => $request->telefono,
+                'correo' => $request->correo,
+            ]);
+        }
+
         // Procesar nuevas fotos si se subieron
         if ($request->hasFile('fotos_estado')) {
             $fotos = $soporte->fotos_estado ?? [];
@@ -164,7 +210,7 @@ class SoporteController extends Controller
             $data['fotos_estado'] = $fotos;
         }
 
-        $soporte->update($data);
+        $soporte->update($request->except(['nombres', 'apellidos', 'numero_identificacion', 'telefono', 'correo']));
 
         return redirect()->route('soportes.index')
             ->with('success', 'Soporte actualizado exitosamente.');
