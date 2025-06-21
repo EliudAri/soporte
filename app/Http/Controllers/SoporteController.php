@@ -38,8 +38,8 @@ class SoporteController extends Controller
             'cliente_id' => 'nullable|exists:clientes,id',
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'numero_identificacion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:255',
+            'numero_identificacion' => 'required|numeric',
+            'telefono' => 'required|numeric',
             'correo' => 'required|email|max:255',
             'tipo_equipo' => 'required|string|max:255',
             'marca_modelo' => 'required|string|max:255',
@@ -59,17 +59,18 @@ class SoporteController extends Controller
             'fotos_estado.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Si cliente_id viene, usarlo. Si no, buscar por identificación, teléfono o correo antes de crear cliente.
+        // Si cliente_id viene, usarlo. Si no, buscar por identificación antes de crear cliente.
         if ($request->filled('cliente_id')) {
             $cliente_id = $request->cliente_id;
         } else {
-            $cliente = Cliente::where('numero_identificacion', $request->numero_identificacion)
-                ->orWhere('telefono', $request->telefono)
-                ->orWhere('correo', $request->correo)
-                ->first();
+            // La búsqueda debe ser estricta por número de identificación para evitar falsos positivos.
+            $cliente = Cliente::where('numero_identificacion', $request->numero_identificacion)->first();
+            
             if ($cliente) {
+                // Si se encuentra un cliente, se usa su ID.
                 $cliente_id = $cliente->id;
             } else {
+                // Si no se encuentra, se crea un nuevo cliente.
                 $cliente = Cliente::create([
                     'nombres' => $request->nombres,
                     'apellidos' => $request->apellidos,
@@ -155,8 +156,8 @@ class SoporteController extends Controller
         $request->validate([
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'numero_identificacion' => 'nullable|string|max:255',
-            'telefono' => 'required|string|max:255',
+            'numero_identificacion' => 'nullable|numeric',
+            'telefono' => 'required|numeric',
             'correo' => 'required|email|max:255',
             'tipo_equipo' => 'required|string|max:255',
             'marca_modelo' => 'required|string|max:255',

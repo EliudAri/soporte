@@ -278,8 +278,8 @@
                                 <label class="block text-sm font-medium text-gray-700">Tique Creado por</label>
                                 <p class="mt-1 text-sm text-gray-900">{{ $soporte->user->name ?? 'N/A' }}</p>
                             </div>
-                            @role('Admin|Tecnico')
-                                <a href="{{ route('tecnico.soportes.diagnostico', $soporte) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            @role('Administrador|Tecnico')
+                                <a href="{{ route('soportes_Tecni.edit', $soporte) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     {{ __('Gestionar Diagnóstico') }}
                                 </a>
                             @endrole

@@ -19,6 +19,15 @@
                             </h3>
                             <input type="hidden" id="cliente_id" name="cliente_id" value="">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="md:col-span-2">
+                                    <x-label for="numero_identificacion" value="Número de identificación *" />
+                                    <div class="relative">
+                                        <x-input id="numero_identificacion" type="tel" name="numero_identificacion" 
+                                                 class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" required autocomplete="off" />
+                                        <div id="results" class="absolute z-10 w-full bg-white rounded-md shadow-lg mt-1 hidden"></div>
+                                    </div>
+                                    <x-input-error for="numero_identificacion" class="mt-2" />
+                                </div>
                                 <div>
                                     <x-label for="nombres" value="Nombres *" />
                                     <x-input id="nombres" type="text" name="nombres" 
@@ -32,17 +41,8 @@
                                     <x-input-error for="apellidos" class="mt-2" />
                                 </div>
                                 <div>
-                                    <x-label for="numero_identificacion" value="Número de identificación *" />
-                                    <div class="relative">
-                                        <x-input id="numero_identificacion" type="text" name="numero_identificacion" 
-                                                 class="mt-1 block w-full" value="{{ old('numero_identificacion') }}" required autocomplete="off" />
-                                        <div id="results" class="absolute z-10 w-full bg-white rounded-md shadow-lg mt-1 hidden"></div>
-                                    </div>
-                                    <x-input-error for="numero_identificacion" class="mt-2" />
-                                </div>
-                                <div>
                                     <x-label for="telefono" value="Teléfono / WhatsApp *" />
-                                    <x-input id="telefono" type="text" name="telefono" 
+                                    <x-input id="telefono" type="tel" name="telefono" 
                                              class="mt-1 block w-full" value="{{ old('telefono') }}" required />
                                     <x-input-error for="telefono" class="mt-2" />
                                 </div>
