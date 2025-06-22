@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SoporteController extends Controller
 {
@@ -93,6 +94,8 @@ class SoporteController extends Controller
         ]);
         $data['user_id'] = Auth::id();
         $data['cliente_id'] = $cliente_id;
+        $data['codigo_seguimiento'] = 'FXV-' . Str::upper(Str::random(8));
+        
         // Forzar booleanos a false si no vienen en la request
         foreach ([
             'equipo_arranca',

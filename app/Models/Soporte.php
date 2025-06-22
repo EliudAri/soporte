@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Soporte extends Model
 {
     protected $fillable = [
+        'codigo_seguimiento',
         'tipo_equipo',
         'marca_modelo',
         'serial_imei',

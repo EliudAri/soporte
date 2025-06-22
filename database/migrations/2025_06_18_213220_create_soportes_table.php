@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('soportes', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo_seguimiento')->unique();
             
             // Relación con cliente
             $table->foreignId('cliente_id')->constrained('clientes')->onDelete('restrict');

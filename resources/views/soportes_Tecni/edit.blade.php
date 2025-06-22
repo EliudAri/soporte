@@ -26,6 +26,7 @@
                                 <div><strong>Dispositivo:</strong> {{ $soporte->marca_modelo }}</div>
                                 <div><strong>Problema reportado:</strong> {{ $soporte->descripcion_problema }}</div>
                                 <div><strong>Tipo de Servicio:</strong> {{ $soporte->tipo_servicio }}</div>
+                                <div><strong>Código de Seguimiento:</strong> <span class="font-bold text-indigo-600">{{ $soporte->codigo_seguimiento }}</span></div>
                             </div>
                         </div>
 

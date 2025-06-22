@@ -23,13 +23,24 @@
                 <div class="p-6">
                     <!-- Estado del soporte -->
                     <div class="mb-6">
-                        <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full 
+                        <span class="inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full 
                             {{ $soporte->estado === 'pendiente' ? 'bg-yellow-100 text-yellow-800' : '' }}
                             {{ $soporte->estado === 'en_proceso' ? 'bg-blue-100 text-blue-800' : '' }}
                             {{ $soporte->estado === 'completado' ? 'bg-green-100 text-green-800' : '' }}
                             {{ $soporte->estado === 'cancelado' ? 'bg-red-100 text-red-800' : '' }}">
+                            <svg class="w-4 h-4 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
                             {{ $estados[$soporte->estado] ?? $soporte->estado }}
                         </span>
+
+                        <div class="mt-4 sm:mt-0 sm:ml-4 sm:inline-flex items-center">
+                            <span class="text-sm font-medium text-gray-500">Código de Seguimiento:</span>
+                            <span class="ml-2 text-sm font-semibold text-gray-900 bg-gray-100 px-2 py-1 rounded">
+                                {{ $soporte->codigo_seguimiento }}
+                            </span>
+                        </div>
+                        
                         <span class="ml-4 text-sm text-gray-500">
                             Creado el {{ $soporte->created_at->format('d/m/Y H:i') }}
                         </span>
