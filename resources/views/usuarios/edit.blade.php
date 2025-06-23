@@ -25,14 +25,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 @foreach($roles as $role)
                                     <label class="flex items-center">
-                                        <input type="checkbox" name="roles[]" value="{{ $role->name }}" class="form-checkbox h-5 w-5 text-blue-600" {{ $usuario->roles->contains('name', $role->name) ? 'checked' : '' }}>
+                                        <input type="checkbox" name="roles[]" value="{{ $role->name }}" 
+                                            class="form-checkbox h-5 w-5 text-blue-600"
+                                            {{ in_array($role->name, $usuario->roles->pluck('name')->toArray()) ? 'checked' : '' }}>
                                         <span class="ml-2 text-gray-700">{{ $role->name }}</span>
                                     </label>
                                 @endforeach
                             </div>
-                            @error('roles')
-                                <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
                         </div>
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

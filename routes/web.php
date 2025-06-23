@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\SoporteTecnicoController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,18 +23,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     // FUNCION DASHBOARD SEGUN EL ROL DEL USUARIO
-    Route::get('/dashboard', function () {
-        $user = Auth::user();
-        if ($user && $user->hasRole('Administrador')) {
-            return view('dashboardAdmin');
-        } elseif ($user && $user->hasRole('Tecnico')) {
-            return view('dashboardTecni');
-        } elseif ($user && $user->hasRole('User')) {
-            return view('dashboardUser');
-        } else {
-            abort(403, 'No tienes acceso a ningún dashboard.');
-        }
-    })->middleware('can:dashboard')->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->middleware('can:dashboard')->name('dashboard');
 
 
     //-----------RUTAS PARA EL MENU, ESTO LLAMA A LAS VISTAS QUE SE CREAN EN LA CARPETA MENU-----------
@@ -41,14 +31,9 @@ Route::middleware([
     // DATO IMPORTANTE, DONDE ESTA EL ROUTE::GET ESE NOMBRE DE /crear-areas es peronalizable, LO QUE NO SE CAMBIA ES LA RUTA REAL QUE ES EL RETURN VIEW QUE ESE SI ES LA RUTA REAL, AH Y EL NOMBRE QUE SE LE COLOCA EN NAME crearAreas
 
 
-    Route::get('/usuarios', function () {
-        $usuarios = User::all();
-        return view('menu.usuarios', compact('usuarios'));
-    })->middleware('can:usuarios')->name('usuarios');
+   
 
-    Route::get('/soporte', function () {
-        return view('menu.soporte');
-    })->middleware('can:soporte')->name('soporte');
+    
 
 
 
@@ -80,31 +65,24 @@ Route::middleware([
     Route::put('/soportes/{soporte}', [SoporteController::class, 'update'])->middleware('can:soportes.update')->name('soportes.update');
     Route::delete('/soportes/{soporte}', [SoporteController::class, 'destroy'])->middleware('can:soportes.destroy')->name('soportes.destroy');
 
+    //Ruta de busqueda del cliente en un ingreso de un soporte
+    Route::get('/clientes/buscar', [ClienteController::class, 'buscar'])->name('clientes.buscar');
+
+    // Rutas para soportes_Tecni
+   
     
-     // Rutas para soportes_Tecni
-     Route::get('/soportes_Tecni', [SoporteTecnicoController::class, 'index'])->middleware('can:soportes_Tecni.index')->name('soportes_Tecni.index');
-     Route::get('/soportes_Tecni/create', [SoporteTecnicoController::class, 'create'])->middleware('can:soportes_Tecni.create')->name('soportes_Tecni.create');
-     Route::post('/soportes_Tecni', [SoporteTecnicoController::class, 'store'])->middleware('can:soportes_Tecni.create')->name('soportes_Tecni.store');
-     Route::get('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'show'])->middleware('can:soportes_Tecni.show')->name('soportes_Tecni.show');
-     Route::get('/soportes_Tecni/{soporte}/edit', [SoporteTecnicoController::class, 'edit'])->middleware('can:soportes_Tecni.edit')->name('soportes_Tecni.edit');
-     Route::put('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'update'])->middleware('can:soportes_Tecni.update')->name('soportes_Tecni.update');
-     Route::delete('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'destroy'])->middleware('can:soportes_Tecni.destroy')->name('soportes_Tecni.destroy');
-
-
-
-
     
+    
+    Route::get('/soportes_Tecni/{soporte}/edit', [SoporteTecnicoController::class, 'edit'])->middleware('can:soportes_Tecni.edit')->name('soportes_Tecni.edit');
+    Route::put('/soportes_Tecni/{soporte}', [SoporteTecnicoController::class, 'update'])->middleware('can:soportes_Tecni.update')->name('soportes_Tecni.update');
+   
+
+
+
+
     //-----------FIN RUTAS QUE MANEJAN LOS DATOS-----------
 
     // Route::get('/home', [HomeController::class, 'redirect'])->name('home');
-
-    Route::get('/clientes/buscar', [ClienteController::class, 'buscar'])->name('clientes.buscar');
+    
 });
 
-// Proteger el registro para que solo el admin pueda acceder
-Route::get('register', function () {
-    abort(403, 'No tienes acceso perro.');
-})->name('register');
-Route::post('register', function () {
-    abort(403);
-});

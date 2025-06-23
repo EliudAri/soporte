@@ -51,6 +51,12 @@ return new class extends Migration
             // Estado del soporte
             $table->enum('estado', ['pendiente', 'en_proceso', 'completado', 'cancelado'])->default('pendiente');
             
+            // Campos para el diagnóstico técnico
+            $table->foreignId('tecnico_id')->nullable()->constrained('users')->onDelete('set null'); // El técnico asignado
+            $table->text('diagnostico_tecnico')->nullable(); // El diagnóstico detallado
+            $table->decimal('costo_estimado', 10, 2)->nullable(); // Costo con 2 decimales
+            $table->json('evidencia_tecnico')->nullable(); // Fotos de evidencia del técnico
+            
             // Usuario que creó el soporte
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             

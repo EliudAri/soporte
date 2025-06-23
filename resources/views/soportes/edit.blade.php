@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
+    <div class="flex justify-between items-center">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Editar Soporte') }}
         </h2>
+        <div class="flex space-x-2">
+            <a href="{{ route('soportes.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                {{ __('Volver') }}
+            </a>
+        </div>
+    </div>
     </x-slot>
 
     <div class="py-12">

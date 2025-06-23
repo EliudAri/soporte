@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Soporte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class SoporteTecnicoController extends Controller
 {
@@ -29,11 +30,20 @@ class SoporteTecnicoController extends Controller
             'evidencia_tecnico.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $data = $request->only('estado', 'diagnostico_tecnico', 'costo_estimado');
+        $data = $request->only('estado', 'diagnostico_tecnico');
+
+        // Limpiar y preparar el costo estimado
+        if ($request->filled('costo_estimado')) {
+            $costo = $request->input('costo_estimado');
+            // Eliminar puntos de miles y reemplazar comas de decimales por puntos
+            $data['costo_estimado'] = str_replace(',', '.', str_replace('.', '', $costo));
+        } else {
+            $data['costo_estimado'] = null;
+        }
 
         // Asignar el técnico actual si no hay uno asignado
         if (!$soporte->tecnico_id) {
-            $data['tecnico_id'] = auth()->id();
+            $data['tecnico_id'] = Auth::id();
         }
         
         // Procesar nuevas fotos de evidencia del tecnico

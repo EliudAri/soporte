@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
     public function index()
     {
         $usuarios = User::with('roles')->get();
-        return view('menu.usuarios', compact('usuarios'));
+        return view('usuarios.index', compact('usuarios'));
     }
 
     public function edit(User $usuario)
@@ -22,20 +24,30 @@ class UserController extends Controller
 
     public function update(Request $request, User $usuario)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
-            'roles' => 'required|array',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
+                'roles' => 'required|array',
+            ], [
+                'roles.required' => 'Debes seleccionar al menos un rol para el usuario.',
+            ]);
 
-        $usuario->name = $request->name;
-        $usuario->email = $request->email;
-        $usuario->save();
+            $validator->validate();
 
-        $usuario->syncRoles($request->roles);
+            $usuario->name = $request->name;
+            $usuario->email = $request->email;
+            $usuario->save();
 
-        return redirect()->route('usuarios.index')
-            ->with('success', 'Usuario actualizado exitosamente.');
+            $usuario->syncRoles($request->roles);
+
+            return redirect()->route('usuarios.index')
+                ->with('success', 'Usuario actualizado exitosamente.');
+
+        } catch (ValidationException $e) {
+            return redirect()->route('usuarios.edit', $usuario)
+                ->with('error', $e->validator->errors()->first());
+        }
     }
 
     public function show($id)

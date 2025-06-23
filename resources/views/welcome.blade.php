@@ -1,169 +1,82 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>FixView</title>
    
+        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-        <style>
-            body {
-                min-height: 100vh;
-                background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
-                font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-            }
-            .header {
-                margin: 32px auto 0 auto;
-                max-width: 700px;
-                width: 95%;
-                background: linear-gradient(90deg, #6366f1 0%, #38bdf8 100%);
-                border-radius: 2rem;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0.5rem 2rem 0.5rem 1rem;
-                box-shadow: 0 4px 24px 0 rgba(99,102,241,0.08);
-            }
-            .logo {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-            .logo-circle {
-                background: #fff;
-                border-radius: 50%;
-                width: 64px;
-                height: 64px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 2px 8px 0 rgba(99,102,241,0.10);
-            }
-            .logo-text {
-                font-weight: 700;
-                font-size: 1.3rem;
-                color: #3730a3;
-                letter-spacing: 1px;
-            }
-            .header-buttons {
-                display: flex;
-                gap: 1rem;
-            }
-            .header-buttons a {
-                padding: 0.5rem 2rem;
-                border-radius: 1.5rem;
-                background: linear-gradient(90deg, #818cf8 0%, #38bdf8 100%);
-                color: #fff;
-                font-weight: 600;
-                border: none;
-                text-decoration: none;
-                font-size: 1rem;
-                box-shadow: 0 2px 8px 0 rgba(56,189,248,0.10);
-                transition: background 0.2s, transform 0.2s;
-            }
-            .header-buttons a:hover {
-                background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
-                transform: translateY(-2px) scale(1.04);
-            }
-            .main-content {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-            .tracker-box {
-                background: #f3f4f6cc;
-                border-radius: 2rem;
-                box-shadow: 0 4px 24px 0 rgba(99,102,241,0.08);
-                padding: 3rem 2rem 2.5rem 2rem;
-                max-width: 600px;
-                width: 90%;
-                margin: 2rem auto;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .tracker-box p {
-                font-size: 1.15rem;
-                color: #373737;
-                margin-bottom: 2rem;
-                text-align: center;
-            }
-            .tracker-input {
-                width: 70%;
-                max-width: 340px;
-                padding: 0.8rem 1.2rem;
-                border-radius: 1.5rem;
-                border: none;
-                background: #fff;
-                box-shadow: 0 2px 8px 0 rgba(99,102,241,0.10);
-                font-size: 1.1rem;
-                text-align: center;
-                outline: none;
-                transition: box-shadow 0.2s;
-            }
-            .tracker-input:focus {
-                box-shadow: 0 0 0 3px #818cf8aa;
-            }
-            .footer {
-                width: 100%;
-                background: linear-gradient(90deg,#6366f1 0%,#38bdf8 100%);
-                color: #fff;
-                text-align: center;
-                padding: 0.8rem 0 0.7rem 0;
-                font-size: 0.98rem;
-                letter-spacing: 0.5px;
-                border-bottom-left-radius: 1.5rem;
-                border-bottom-right-radius: 1.5rem;
-                box-shadow: 0 -2px 12px 0 #6366f133;
-                margin-top: 2rem;
-            }
-            .footer span {
-                opacity: 0.85;
-            }
-            @media (max-width: 600px) {
-                .header { flex-direction: column; gap: 1rem; padding: 1rem; }
-                .main-content { padding: 0 0.5rem; }
-                .tracker-box { padding: 2rem 0.5rem; }
-            }
-        </style>
+        <link href="https://fonts.bunny.net/css?family=figtree:400,600,700&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body>
-        <div class="header">
-            <div class="logo">
-                <div class="logo-circle">
-                    <img src="{{ asset('storage/img/Circle.png') }}" alt="Logo FixView" style="width:56px;height:56px;object-fit:contain;display:block;" />
-                </div>
-                <span class="logo-text">FixView</span>
-            </div>
-            <div class="header-buttons">
-                <a href="{{ route('login') }}">Iniciar sesion</a>
-                <a href="{{ route('register') }}">Registrarse</a>
-            </div>
-        </div>
-        <div class="main-content">
-            <div class="tracker-box" style="position:relative; overflow:hidden;">
-                <!-- Icono decorativo -->
-                <div style="position:absolute;top:-32px;left:-32px;width:80px;height:80px;background:linear-gradient(135deg,#818cf8 60%,#38bdf8 100%);border-radius:50%;opacity:0.18;z-index:0;"></div>
-                <div style="position:absolute;bottom:-32px;right:-32px;width:100px;height:100px;background:linear-gradient(135deg,#38bdf8 60%,#818cf8 100%);border-radius:50%;opacity:0.13;z-index:0;"></div>
-                <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
-                    <div style="background:linear-gradient(135deg,#6366f1 60%,#38bdf8 100%);width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px 0 #6366f133;margin-bottom:1rem;">
-                        <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#fff"/><path d="M7 17v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3" stroke="#6366f1" stroke-width="1.5"/></svg>
+    <body class="antialiased font-sans bg-gray-50 text-gray-800">
+        <div class="min-h-screen flex flex-col">
+            <!-- Header -->
+            <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center py-4">
+                        <!-- Logo -->
+                        <div class="flex items-center space-x-3">
+                             <img src="{{ asset('storage/img/Circle.png') }}" alt="Logo FixView" class="h-10 w-auto"/>
+                             <span class="text-2xl font-bold text-gray-900 tracking-tight">FixView</span>
+                        </div>
+
+                        <!-- Navigation -->
+                        <nav class="hidden md:flex items-center space-x-2">
+                             @if (Route::has('login'))
+                                @auth
+                                    <a href="{{ url('/dashboard') }}" class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">Dashboard</a>
+                                @else
+                                    <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">Iniciar Sesión</a>
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}" class="ml-2 px-4 py-2 rounded-md text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">Registrarse</a>
+                                    @endif
+                                @endauth
+                            @endif
+                        </nav>
                     </div>
-                    <p style="font-size:1.18rem;color:#373737;margin-bottom:1.2rem;text-align:center;font-weight:500;">¡Bienvenido! Ingresa el código de seguimiento de tu equipo para conocer el estado de tu reparación.<br><span style='font-size:0.98rem;color:#6366f1;'>¿Dudas? Contacta a nuestro equipo de soporte.</span></p>
-                    <div style="width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:1.2rem;">
-                        <input class="tracker-input" type="text" placeholder="Código de seguimiento" style="transition:box-shadow 0.2s, border 0.2s;box-shadow:0 2px 8px 0 #6366f11a;border:2px solid #e0e7ff;" onfocus="this.style.boxShadow='0 0 0 3px #818cf8aa';this.style.borderColor='#6366f1'" onblur="this.style.boxShadow='0 2px 8px 0 #6366f11a';this.style.borderColor='#e0e7ff'" />
-                        <button style="width:100%;padding:0.7rem 0;border-radius:1.5rem;background:linear-gradient(90deg,#6366f1 0%,#38bdf8 100%);color:#fff;font-weight:600;font-size:1.08rem;box-shadow:0 2px 8px 0 #6366f133;border:none;cursor:pointer;transition:background 0.2s,transform 0.2s;" onmouseover="this.style.background='linear-gradient(90deg,#38bdf8 0%,#6366f1 100%)';this.style.transform='scale(1.04)'" onmouseout="this.style.background='linear-gradient(90deg,#6366f1 0%,#38bdf8 100%)';this.style.transform='scale(1)'">Buscar código</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-grow flex items-center">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-16">
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight">
+                        <span class="block">Sigue el estado de tu</span>
+                        <span class="block text-indigo-600 mt-1">reparación en tiempo real.</span>
+                    </h1>
+                    <p class="mt-5 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:mt-6">
+                        Ingresa tu código de seguimiento para ver cada paso del proceso de soporte de tu equipo.
+                    </p>
+
+                    <!-- Tracking Form -->
+                    <div class="mt-10 max-w-md mx-auto">
+                        <form action="#" method="GET" class="sm:flex sm:gap-3">
+                            <div class="w-full">
+                                <label for="tracking_code" class="sr-only">Código de seguimiento</label>
+                                <input type="text" name="tracking_code" id="tracking_code" class="block w-full px-5 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ingresa tu código aquí">
+            </div>
+                            <div class="mt-3 sm:mt-0 sm:shrink-0">
+                                <button type="submit" class="w-full flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Buscar
+                                </button>
+            </div>
+                        </form>
                     </div>
                 </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-white mt-8">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <p class="text-center text-sm text-gray-500">
+                        &copy; {{ date('Y') }} FixView. Todos los derechos reservados.
+                    </p>
             </div>
-        </div>
-        <div class="footer">
-            <span>&copy; {{ date('Y') }} FixView. Todos los derechos reservados.</span>
+            </footer>
         </div>
     </body>
 </html>
