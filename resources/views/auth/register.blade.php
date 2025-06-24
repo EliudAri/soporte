@@ -1,3 +1,5 @@
+@include('components.navbar')
+
 <x-guest-layout>
     <x-authentication-card>
         <x-validation-errors class="mb-4" />
