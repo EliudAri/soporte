@@ -5,3 +5,167 @@
 [x-cloak] {
     display: none;
 }
+
+/* Estilos responsivos adicionales */
+@layer components {
+    /* Mejoras para formularios responsivos */
+    .form-input-responsive {
+        @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm sm:text-base;
+    }
+    
+    .form-label-responsive {
+        @apply block text-sm font-medium text-gray-700 mb-1 sm:mb-2;
+    }
+    
+    .btn-responsive {
+        @apply px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 sm:px-4 sm:py-2 sm:text-base;
+    }
+    
+    .btn-primary-responsive {
+        @apply btn-responsive bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+    }
+    
+    .btn-secondary-responsive {
+        @apply btn-responsive bg-gray-300 text-gray-700 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500;
+    }
+    
+    /* Mejoras para tablas responsivas */
+    .table-responsive {
+        @apply overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg;
+    }
+    
+    .table-responsive-inner {
+        @apply inline-block min-w-full align-middle;
+    }
+    
+    /* Mejoras para cards responsivas */
+    .card-responsive {
+        @apply bg-white rounded-lg shadow-lg p-4 sm:p-6;
+    }
+    
+    .card-grid-responsive {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6;
+    }
+    
+    /* Mejoras para navegación responsiva */
+    .nav-link-responsive {
+        @apply px-3 py-2 text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors;
+    }
+    
+    .nav-link-mobile {
+        @apply block px-3 py-2 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-gray-50 rounded-md transition-colors;
+    }
+    
+    /* Mejoras para espaciado responsivo */
+    .container-responsive {
+        @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    }
+    
+    .section-responsive {
+        @apply py-6 sm:py-8 lg:py-12;
+    }
+    
+    /* Mejoras para texto responsivo */
+    .text-responsive-sm {
+        @apply text-xs sm:text-sm;
+    }
+    
+    .text-responsive-base {
+        @apply text-sm sm:text-base;
+    }
+    
+    .text-responsive-lg {
+        @apply text-base sm:text-lg;
+    }
+    
+    .text-responsive-xl {
+        @apply text-lg sm:text-xl;
+    }
+    
+    .text-responsive-2xl {
+        @apply text-xl sm:text-2xl;
+    }
+    
+    /* Mejoras para iconos responsivos */
+    .icon-responsive {
+        @apply h-4 w-4 sm:h-5 sm:w-5;
+    }
+    
+    .icon-responsive-lg {
+        @apply h-5 w-5 sm:h-6 sm:w-6;
+    }
+    
+    /* Mejoras para badges responsivos */
+    .badge-responsive {
+        @apply inline-flex px-2 py-1 text-xs font-semibold rounded-full;
+    }
+    
+    /* Mejoras para modales responsivos */
+    .modal-responsive {
+        @apply fixed inset-0 z-50 overflow-y-auto;
+    }
+    
+    .modal-content-responsive {
+        @apply flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
+    }
+    
+    .modal-dialog-responsive {
+        @apply inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full;
+    }
+}
+
+/* Estilos específicos para dispositivos móviles */
+@media (max-width: 640px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    .mobile-full-width {
+        width: 100% !important;
+    }
+    
+    .mobile-text-center {
+        text-align: center !important;
+    }
+    
+    .mobile-padding {
+        padding: 1rem !important;
+    }
+    
+    .mobile-margin {
+        margin: 1rem !important;
+    }
+}
+
+/* Estilos para mejorar la accesibilidad en dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .touch-spacing {
+        margin: 0.5rem;
+    }
+}
+
+/* Estilos para mejorar la legibilidad en pantallas pequeñas */
+@media (max-width: 480px) {
+    .text-mobile-sm {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+    
+    .text-mobile-base {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+    
+    .text-mobile-lg {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+/* Importar estilos responsivos adicionales */
+@import 'responsive.css';

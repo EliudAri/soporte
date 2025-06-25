@@ -1,32 +1,32 @@
 <x-app-layout>
     <x-slot name="header">
-    <div class="flex justify-between items-center">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+        <h2 class="font-semibold text-lg sm:text-xl text-gray-800 leading-tight">
             {{ __('Recepción de Dispositivo') }}
         </h2>
         <div class="flex space-x-2">
-            <a href="{{ route('soportes.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('soportes.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm sm:text-base">
                 {{ __('Volver') }}
             </a>
         </div>
     </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6">
+                <div class="p-4 sm:p-6">
                     <form action="{{ route('soportes.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <!-- 1. Datos del Cliente -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
+                        <div class="mb-6 sm:mb-8">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 border-b pb-2">
                                 1. Datos del Cliente
                             </h3>
                             <input type="hidden" id="cliente_id" name="cliente_id" value="">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="md:col-span-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="sm:col-span-2">
                                     <x-label for="numero_identificacion" value="Número de identificación *" />
                                     <div class="relative">
                                         <x-input id="numero_identificacion" type="tel" name="numero_identificacion"
@@ -63,12 +63,12 @@
                         </div>
 
                         <!-- 2. Datos del Dispositivo -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
+                        <div class="mb-6 sm:mb-8">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 border-b pb-2">
                                 2. Datos del Dispositivo
                             </h3>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <x-label for="tipo_equipo" value="Tipo de equipo *" />
                                     <select id="tipo_equipo" name="tipo_equipo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
@@ -126,14 +126,14 @@
                                 <input id="fotos_estado" type="file" name="fotos_estado[]" multiple
                                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     accept="image/*" />
-                                <p class="mt-1 text-sm text-gray-500">Puede seleccionar múltiples imágenes</p>
+                                <p class="mt-1 text-xs sm:text-sm text-gray-500">Puede seleccionar múltiples imágenes</p>
                                 <x-input-error for="fotos_estado" class="mt-2" />
                             </div>
                         </div>
 
                         <!-- 3. Motivo de la entrega -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
+                        <div class="mb-6 sm:mb-8">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 border-b pb-2">
                                 3. Motivo de la entrega
                             </h3>
 
@@ -159,12 +159,12 @@
                         </div>
 
                         <!-- 4. Checklist Técnico -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
+                        <div class="mb-6 sm:mb-8">
+                            <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4 border-b pb-2">
                                 4. Checklist Técnico
                             </h3>
-                            <p class="mb-2 text-sm text-gray-500">Marca la casilla si la respuesta es <span class="font-semibold">SÍ</span>. Si no marcas, se asume que <span class="font-semibold">NO</span> está funcionando correctamente o presenta el problema.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <p class="mb-2 text-xs sm:text-sm text-gray-500">Marca la casilla si la respuesta es <span class="font-semibold">SÍ</span>. Si no marcas, se asume que <span class="font-semibold">NO</span> está funcionando correctamente o presenta el problema.</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="flex items-center">
                                     <input id="equipo_arranca" type="checkbox" name="equipo_arranca" value="1"
                                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
@@ -202,112 +202,117 @@
                                 </div>
 
                                 <div class="flex items-center">
-                                    <input id="software_malicioso_lentitud" type="checkbox" name="software_malicioso_lentitud" value="1"
+                                    <input id="internet_wifi_funcionando" type="checkbox" name="internet_wifi_funcionando" value="1"
                                         class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                        {{ old('software_malicioso_lentitud') ? 'checked' : '' }}>
-                                    <label for="software_malicioso_lentitud" class="ml-2 block text-sm text-gray-900">
-                                        ¿Hay software malicioso o lentitud?
+                                        {{ old('internet_wifi_funcionando') ? 'checked' : '' }}>
+                                    <label for="internet_wifi_funcionando" class="ml-2 block text-sm text-gray-900">
+                                        ¿Internet/WiFi funcionando?
+                                    </label>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <input id="programas_aplicaciones_instaladas" type="checkbox" name="programas_aplicaciones_instaladas" value="1"
+                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                        {{ old('programas_aplicaciones_instaladas') ? 'checked' : '' }}>
+                                    <label for="programas_aplicaciones_instaladas" class="ml-2 block text-sm text-gray-900">
+                                        ¿Programas/aplicaciones instaladas?
+                                    </label>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <input id="virus_malware_detectado" type="checkbox" name="virus_malware_detectado" value="1"
+                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                        {{ old('virus_malware_detectado') ? 'checked' : '' }}>
+                                    <label for="virus_malware_detectado" class="ml-2 block text-sm text-gray-900">
+                                        ¿Virus/malware detectado?
+                                    </label>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <input id="disco_duro_ruidos" type="checkbox" name="disco_duro_ruidos" value="1"
+                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                        {{ old('disco_duro_ruidos') ? 'checked' : '' }}>
+                                    <label for="disco_duro_ruidos" class="ml-2 block text-sm text-gray-900">
+                                        ¿Disco duro hace ruidos?
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 5. Observaciones adicionales -->
-                        <div class="mb-8">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">
-                                5. Observaciones adicionales
-                            </h3>
-
-                            <div class="mb-4">
-                                <x-label for="observaciones_adicionales" value="Notas adicionales del cliente o técnico" />
-                                <textarea id="observaciones_adicionales" name="observaciones_adicionales" rows="3"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ old('observaciones_adicionales') }}</textarea>
-                                <x-input-error for="observaciones_adicionales" class="mt-2" />
-                            </div>
-
-                            <div>
-                                <x-label for="recomendaciones_inmediatas" value="Recomendaciones inmediatas" />
-                                <textarea id="recomendaciones_inmediatas" name="recomendaciones_inmediatas" rows="3"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">{{ old('recomendaciones_inmediatas') }}</textarea>
-                                <x-input-error for="recomendaciones_inmediatas" class="mt-2" />
-                            </div>
-                        </div>
-
                         <!-- Botones de acción -->
-                        <div class="flex items-center justify-end mt-6">
-                            <x-secondary-button type="button" onclick="window.history.back()" class="mr-3">
-                                {{ __('Cancelar') }}
-                            </x-secondary-button>
-                            <x-button>
-                                {{ __('Crear Soporte') }}
-                            </x-button>
+                        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end">
+                            <a href="{{ route('soportes.index') }}" class="inline-flex justify-center items-center px-4 py-2 bg-gray-300 border border-transparent rounded-md font-semibold text-xs sm:text-sm text-gray-700 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition ease-in-out duration-150">
+                                Cancelar
+                            </a>
+                            <button type="submit" class="inline-flex justify-center items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs sm:text-sm text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-150">
+                                Crear Soporte
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('numero_identificacion');
+            const resultsContainer = document.getElementById('results');
+            const clienteIdInput = document.getElementById('cliente_id');
+            const nombresInput = document.getElementById('nombres');
+            const apellidosInput = document.getElementById('apellidos');
+            const telefonoInput = document.getElementById('telefono');
+            const correoInput = document.getElementById('correo');
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('numero_identificacion');
-        const resultsContainer = document.getElementById('results');
-        const clienteIdInput = document.getElementById('cliente_id');
-        const nombresInput = document.getElementById('nombres');
-        const apellidosInput = document.getElementById('apellidos');
-        const telefonoInput = document.getElementById('telefono');
-        const correoInput = document.getElementById('correo');
+            let searchTimeout;
 
-        let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const query = searchInput.value;
 
-        searchInput.addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            const query = searchInput.value;
+                if (query.length < 2) {
+                    resultsContainer.classList.add('hidden');
+                    return;
+                }
 
-            if (query.length < 2) {
-                resultsContainer.classList.add('hidden');
-                return;
-            }
+                searchTimeout = setTimeout(() => {
+                    fetch(`/clientes/buscar?query=${encodeURIComponent(query)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            resultsContainer.innerHTML = '';
+                            resultsContainer.classList.remove('hidden');
 
-            searchTimeout = setTimeout(() => {
-                fetch(`/clientes/buscar?query=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        resultsContainer.innerHTML = '';
-                        resultsContainer.classList.remove('hidden');
-
-                        if (data.length > 0) {
-                            data.forEach(cliente => {
-                                const resultItem = document.createElement('div');
-                                resultItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
-                                resultItem.textContent = `${cliente.nombres} ${cliente.apellidos} (${cliente.numero_identificacion})`;
-                                resultItem.addEventListener('click', function() {
-                                    clienteIdInput.value = cliente.id;
-                                    nombresInput.value = cliente.nombres;
-                                    apellidosInput.value = cliente.apellidos;
-                                    searchInput.value = cliente.numero_identificacion;
-                                    telefonoInput.value = cliente.telefono;
-                                    correoInput.value = cliente.correo;
-                                    resultsContainer.innerHTML = '';
-                                    resultsContainer.classList.add('hidden');
+                            if (data.length > 0) {
+                                data.forEach(cliente => {
+                                    const resultItem = document.createElement('div');
+                                    resultItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                                    resultItem.textContent = `${cliente.nombres} ${cliente.apellidos} (${cliente.numero_identificacion})`;
+                                    resultItem.addEventListener('click', function() {
+                                        clienteIdInput.value = cliente.id;
+                                        nombresInput.value = cliente.nombres;
+                                        apellidosInput.value = cliente.apellidos;
+                                        searchInput.value = cliente.numero_identificacion;
+                                        telefonoInput.value = cliente.telefono;
+                                        correoInput.value = cliente.correo;
+                                        resultsContainer.innerHTML = '';
+                                        resultsContainer.classList.add('hidden');
+                                    });
+                                    resultsContainer.appendChild(resultItem);
                                 });
-                                resultsContainer.appendChild(resultItem);
-                            });
-                        } else {
-                            resultsContainer.innerHTML = '<div class="p-2 text-gray-500">No se encontraron clientes.</div>';
-                        }
-                    })
-                    .catch(error => console.error('Error en fetch:', error));
-            }, 300); // Debounce para no saturar con peticiones
-        });
+                            } else {
+                                resultsContainer.innerHTML = '<div class="p-2 text-gray-500">No se encontraron clientes.</div>';
+                            }
+                        })
+                        .catch(error => console.error('Error en fetch:', error));
+                }, 300); // Debounce para no saturar con peticiones
+            });
 
-        // Ocultar resultados si se hace clic fuera
-        document.addEventListener('click', function(e) {
-            if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
-                resultsContainer.classList.add('hidden');
-            }
+            // Ocultar resultados si se hace clic fuera
+            document.addEventListener('click', function(e) {
+                if (!resultsContainer.contains(e.target) && e.target !== searchInput) {
+                    resultsContainer.classList.add('hidden');
+                }
+            });
         });
-    });
-</script>
+    </script>
+</x-app-layout>

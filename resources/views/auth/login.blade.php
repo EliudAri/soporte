@@ -1,6 +1,6 @@
 @include('components.navbar')
 
-<div class="min-h-screen flex items-center justify-center bg-gray-50">
+<div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
     <x-guest-layout>
         <x-authentication-card>
             <x-validation-errors class="mb-4" />
@@ -31,14 +31,14 @@
                     </label>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 space-y-2 sm:space-y-0">
                     @if (Route::has('password.request'))
                         <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
                         </a>
                     @endif
 
-                    <x-button class="ms-4">
+                    <x-button class="sm:ms-4 w-full sm:w-auto">
                         {{ __('Iniciar sesión') }}
                     </x-button>
                 </div>

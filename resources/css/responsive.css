@@ -1,0 +1,429 @@
+/* Estilos responsivos adicionales para el sistema de soporte */
+
+/* Mejoras para dispositivos móviles pequeños */
+@media (max-width: 480px) {
+    .mobile-container {
+        padding: 0.5rem;
+    }
+    
+    .mobile-text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+    
+    .mobile-text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+    
+    .mobile-text-base {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+    
+    .mobile-p-2 {
+        padding: 0.5rem;
+    }
+    
+    .mobile-p-3 {
+        padding: 0.75rem;
+    }
+    
+    .mobile-p-4 {
+        padding: 1rem;
+    }
+    
+    .mobile-m-2 {
+        margin: 0.5rem;
+    }
+    
+    .mobile-m-3 {
+        margin: 0.75rem;
+    }
+    
+    .mobile-m-4 {
+        margin: 1rem;
+    }
+    
+    .mobile-gap-1 {
+        gap: 0.25rem;
+    }
+    
+    .mobile-gap-2 {
+        gap: 0.5rem;
+    }
+    
+    .mobile-gap-3 {
+        gap: 0.75rem;
+    }
+}
+
+/* Mejoras para tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+    .tablet-container {
+        padding: 1rem;
+    }
+    
+    .tablet-text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+    
+    .tablet-text-base {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+    
+    .tablet-text-lg {
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+    
+    .tablet-p-4 {
+        padding: 1rem;
+    }
+    
+    .tablet-p-6 {
+        padding: 1.5rem;
+    }
+    
+    .tablet-m-4 {
+        margin: 1rem;
+    }
+    
+    .tablet-m-6 {
+        margin: 1.5rem;
+    }
+}
+
+/* Mejoras para dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+    .touch-button {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .touch-input {
+        min-height: 44px;
+        padding: 0.75rem;
+    }
+    
+    .touch-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .touch-spacing {
+        margin: 0.5rem;
+    }
+    
+    .touch-gap {
+        gap: 0.5rem;
+    }
+}
+
+/* Mejoras para pantallas de alta densidad */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .retina-border {
+        border-width: 0.5px;
+    }
+    
+    .retina-shadow {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+}
+
+/* Mejoras para modo oscuro (si se implementa en el futuro) */
+@media (prefers-color-scheme: dark) {
+    .dark-mode-auto {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
+    
+    .dark-mode-auto .bg-white {
+        background-color: #374151;
+    }
+    
+    .dark-mode-auto .text-gray-900 {
+        color: #f9fafb;
+    }
+    
+    .dark-mode-auto .text-gray-700 {
+        color: #d1d5db;
+    }
+    
+    .dark-mode-auto .text-gray-500 {
+        color: #9ca3af;
+    }
+    
+    .dark-mode-auto .border-gray-200 {
+        border-color: #4b5563;
+    }
+    
+    .dark-mode-auto .bg-gray-50 {
+        background-color: #374151;
+    }
+    
+    .dark-mode-auto .bg-gray-100 {
+        background-color: #4b5563;
+    }
+}
+
+/* Mejoras para accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .no-motion {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .no-motion * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Mejoras para contraste alto */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        border-width: 2px;
+    }
+    
+    .high-contrast .border-gray-300 {
+        border-color: #000000;
+    }
+    
+    .high-contrast .text-gray-600 {
+        color: #000000;
+    }
+    
+    .high-contrast .bg-gray-100 {
+        background-color: #ffffff;
+        border: 2px solid #000000;
+    }
+}
+
+/* Mejoras para impresión */
+@media print {
+    .print-hidden {
+        display: none !important;
+    }
+    
+    .print-visible {
+        display: block !important;
+    }
+    
+    .print-break {
+        page-break-before: always;
+    }
+    
+    .print-no-break {
+        page-break-inside: avoid;
+    }
+    
+    .print-container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .print-text {
+        color: #000000 !important;
+        background-color: #ffffff !important;
+    }
+}
+
+/* Utilidades responsivas adicionales */
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.responsive-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.responsive-text {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    line-height: 1.5;
+}
+
+.responsive-spacing {
+    padding: clamp(0.5rem, 2vw, 1rem);
+    margin: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+.responsive-container {
+    width: 100%;
+    max-width: min(90vw, 1200px);
+    margin: 0 auto;
+    padding: 0 clamp(0.5rem, 2vw, 1rem);
+}
+
+/* Mejoras para formularios responsivos */
+.responsive-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.responsive-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.responsive-form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.responsive-form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+}
+
+@media (min-width: 640px) {
+    .responsive-form-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}
+
+/* Mejoras para tablas responsivas */
+.responsive-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table {
+    min-width: 100%;
+    border-collapse: collapse;
+}
+
+.responsive-table th,
+.responsive-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+@media (max-width: 768px) {
+    .responsive-table th,
+    .responsive-table td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .responsive-table .mobile-hidden {
+        display: none;
+    }
+}
+
+/* Mejoras para cards responsivas */
+.responsive-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+    .responsive-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Mejoras para navegación responsiva */
+.responsive-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .responsive-nav {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+/* Mejoras para botones responsivos */
+.responsive-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+@media (min-width: 640px) {
+    .responsive-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+.responsive-btn-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.responsive-btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.responsive-btn-secondary {
+    background-color: #6b7280;
+    color: white;
+}
+
+.responsive-btn-secondary:hover {
+    background-color: #4b5563;
+}
+
+.responsive-btn-success {
+    background-color: #10b981;
+    color: white;
+}
+
+.responsive-btn-success:hover {
+    background-color: #059669;
+}
+
+.responsive-btn-danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.responsive-btn-danger:hover {
+    background-color: #dc2626;
+}
+
+.responsive-btn-warning {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.responsive-btn-warning:hover {
+    background-color: #d97706;
+} 
